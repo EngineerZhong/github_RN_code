@@ -1,4 +1,4 @@
-#Tue Apr 16 23:34:18 CST 2019
-base.0=/Users/dalididilo/Documents/react_native_demo/github_example/android/app/build/intermediates/transforms/dexMerger/debug/0
+#Mon May 06 10:40:49 CST 2019
+base.0=/Users/dalididilo/Documents/github_RN_code/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
