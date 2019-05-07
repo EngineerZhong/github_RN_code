@@ -82,6 +82,7 @@ export default class DataStore {
         resolve(responseData);
       }).catch((error) => {
         reject(error);
+        console.log(error);
       })
     })
   }
