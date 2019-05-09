@@ -9,7 +9,9 @@ import {onLoadPopularData,onLoadMorePopular} from '../action/popular/index';
 import Toast, {DURATION} from 'react-native-easy-toast';
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars'
+import { NavigationBar } from '../common/NavigationBar';
 
+const THEME = '#578'
 export default class PopularPage extends Component {
 
     constructor(props) {
@@ -52,8 +54,20 @@ export default class PopularPage extends Component {
         return createAppContainer(TabNavigator);
     }
     render() {
+        let statusBar = {
+          backgroundColor:THEME,
+          barStyle:'light-content'
+        };
+        let navigationBar = <NavigationBar 
+        title={"最热"}
+          statusBar = {statusBar}
+          style={{backgroundColor:THEME}}
+          />
         const TopTab = this._createTopTab();
-        return <TopTab/>;
+        return <View style={{flex:1,marginTop:30}}>
+            {/* {navigationBar} */}
+            <TopTab/>
+        </View>
     }
 }
 const pageSize = 10;//设为常量，防止修改
