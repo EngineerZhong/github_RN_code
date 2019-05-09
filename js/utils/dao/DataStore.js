@@ -1,16 +1,16 @@
 
 import { AsyncStorage } from 'react-native';
-
-
+import Trending from 'GitHubTrending'
+export const FLAG_STORAGE = {flag_popular:'popular',flag_trending:'trending'}
 export default class DataStore {
   // 获取数据Data的入口
-  fetchData(url) {
+  fetchData(url,flag) {
     return new Promise((resolve, reject) => {
       this.fetchLocalData(url).then((wrapData) => {
         if (wrapData && this.checkTimestampValid(wrapData.timestamp)) {
           resolve(wrapData);
         } else {
-          this.fetchNetData(url).then((data) => {
+          this.fetchNetData(url,flag).then((data) => {
             resolve(this._wrapData(data));
           }).catch((error) => {
             reject(error);
@@ -62,7 +62,7 @@ export default class DataStore {
           }
         } else {
           reject(error);
-          fetchNetData(url);
+          fetchNetData(url,flag);
           console.error(error);
         }
       })
@@ -70,20 +70,36 @@ export default class DataStore {
   }
 
   // 获取网络数据
-  fetchNetData(url) {
+  fetchNetData(url,flag) {
     return new Promise((resolve, reject) => {
-      fetch(url).then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('Network response was not ok.');
-      }).then((responseData) => {
-        this.saveLocalData(url, responseData);
-        resolve(responseData);
-      }).catch((error) => {
-        reject(error);
-        console.log(error);
-      })
+      if(flag !== FLAG_STORAGE.flag_trending){
+        fetch(url).then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok.');
+        }).then((responseData) => {
+          this.saveLocalData(url, responseData);
+          resolve(responseData);
+        }).catch((error) => {
+          reject(error);
+          console.log(error);
+        })
+      }else{
+        new Trending().fetchTrending(url)
+        .then(items=>{
+          if(!items){
+            throw new Error('response is null')
+          }else{
+            this.saveLocalData(url,items)
+            resolve(items)
+          }
+        }).catch(error=>{
+          reject(error)
+          console.log(error)
+        })
+      }
+      
     })
   }
 }

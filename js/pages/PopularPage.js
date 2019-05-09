@@ -6,12 +6,12 @@ import {connect} from 'react-redux';
 import actions from '../action/index';
 import PopularItem from '../common/PopularItem';
 import {onLoadPopularData,onLoadMorePopular} from '../action/popular/index';
+import NavigationBar from '../common/NavigationBar';
 import Toast, {DURATION} from 'react-native-easy-toast';
+
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars'
-import { NavigationBar } from '../common/NavigationBar';
-
-const THEME = '#578'
+const THEME_COLOR = '#678'
 export default class PopularPage extends Component {
 
     constructor(props) {
@@ -44,7 +44,7 @@ export default class PopularPage extends Component {
                 upperCaseLabel: false, // 是否使用标签大写
                 scrollEnabled: true, // 不占满一屏，可进行滚动
                 style: {
-                    backgroundColor: '#999'
+                    backgroundColor: '#678'
                 },
                 indicatorStyle: styles.indicatorStyle,
                 labelStyle: styles.labelStyle
@@ -55,17 +55,16 @@ export default class PopularPage extends Component {
     }
     render() {
         let statusBar = {
-          backgroundColor:THEME,
+          backgroundColor:THEME_COLOR,
           barStyle:'light-content'
         };
         let navigationBar = <NavigationBar 
-        title={"最热"}
+          title={"最热"}
           statusBar = {statusBar}
-          style={{backgroundColor:THEME}}
           />
         const TopTab = this._createTopTab();
-        return <View style={{flex:1,marginTop:30}}>
-            {/* {navigationBar} */}
+        return <View style={{flex:1}}>
+            {navigationBar}
             <TopTab/>
         </View>
     }
@@ -223,13 +222,13 @@ const styles = StyleSheet.create({
     },
     tabStyle: {
         width: 200,
-        height: 40
+        height: 40,
     },
     indicatorStyle: {
         height: 2,
         backgroundColor: 'white'
     },
     labelStyle: {
-        fontSize: 16
+        fontSize: 16,
     }
 });
